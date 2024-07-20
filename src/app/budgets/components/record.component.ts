@@ -25,11 +25,11 @@ export class RecordComponent {
 
   updateName(event: Event): void {
     const target = event.target as HTMLInputElement;
-    this.recordService.update({...this.record(), name: target.value});
+    this.recordService.update({ id: this.record().id, name: target.value});
   }
 
   updateValue(event: Event): void {
     const target = event.target as HTMLInputElement;
-    this.recordService.update({...this.record(), amount: (target.value ?? '0') });
+    this.recordService.update({ id: this.record().id, amount: target.value });
   }
 }
