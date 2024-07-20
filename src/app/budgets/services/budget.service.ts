@@ -5,10 +5,9 @@ import { createBudget } from '@shared/models/Budget';
 import { SectionService } from './section.service';
 import { Injectable } from '@angular/core';
 import { createSection, Section } from '@shared/models/Section';
-import { createRecord } from "@shared/models/Record";
-import { RecordService } from "./record.service";
-import { RecordStore } from "./record.store";
-import { SectionStore } from "./section.store";
+import { createRecord } from '@shared/models/Record';
+import { RecordStore } from './record.store';
+import { SectionStore } from './section.store';
 
 @Injectable({ providedIn: 'root' })
 export class BudgetService {
@@ -18,7 +17,7 @@ export class BudgetService {
     private sectionService: SectionService,
     private sectionStore: SectionStore,
     private recordStore: RecordStore,
-    private router: Router
+    private router: Router,
   ) {}
 
   async fetchBudgets(): Promise<void> {
@@ -31,22 +30,34 @@ export class BudgetService {
   }
 
   async createBudget() {
-    let budget = createBudget();
+    const budget = createBudget();
 
     this.budgetStore.add(budget);
 
-    const income = { ...createSection(budget.id), type: "income", title: 'Income' } satisfies Section;
+    const income = {
+      ...createSection(budget.id),
+      type: 'income',
+      title: 'Income',
+    } satisfies Section;
     this.sectionStore.add(income);
 
     const incomeFirstRecord = createRecord(income.id);
     this.recordStore.add(incomeFirstRecord);
 
-    const expense = { ...createSection(budget.id), type: "expense", title: 'Expense' } satisfies Section;
+    const expense = {
+      ...createSection(budget.id),
+      type: 'expense',
+      title: 'Expense',
+    } satisfies Section;
     this.sectionStore.add(expense);
     const expenseFirstRecord = createRecord(expense.id);
     this.recordStore.add(expenseFirstRecord);
 
-    this.budgetRepository.create({ budget, sections: [income,  expense], records: [incomeFirstRecord, expenseFirstRecord]})
+    this.budgetRepository.create({
+      budget,
+      sections: [income, expense],
+      records: [incomeFirstRecord, expenseFirstRecord],
+    });
 
     await this.router.navigate(['/budgets', budget.id]);
   }

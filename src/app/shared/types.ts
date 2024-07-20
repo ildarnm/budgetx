@@ -1,5 +1,5 @@
-import { Model } from "./models/Model";
+import { Model } from './models/Model';
 
 export type PartialModel<M extends Model<unknown>> = Partial<M> & {
-  id: M["id"];
+  id: M['id'];
 };

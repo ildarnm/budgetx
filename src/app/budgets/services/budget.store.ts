@@ -1,13 +1,9 @@
-import { Injectable, signal } from "@angular/core";
-import {
-  BudgetId,
-  Budget
-} from "@shared/models/Budget";
-import { PartialModel } from "@shared/types";
+import { Injectable, signal } from '@angular/core';
+import { BudgetId, Budget } from '@shared/models/Budget';
+import { PartialModel } from '@shared/types';
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class BudgetStore {
-  
   budgets = signal<Budget[]>([]);
 
   constructor() {}

@@ -1,4 +1,1 @@
-
-export default class Repository<T> {
-
-}
+export default class Repository {}

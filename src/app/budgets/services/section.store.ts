@@ -11,12 +11,12 @@ export class SectionStore {
 
   async add(section: Section) {
     console.log('Add section', section);
-    this.sections.update(s => [...s, section]);
+    this.sections.update((s) => [...s, section]);
   }
 
   async addSections(sections: Section[]) {
     console.log('Add sections', sections);
-    this.sections.update(s => [...s, ...sections]);
+    this.sections.update((s) => [...s, ...sections]);
   }
 
   getSections(budgetId: BudgetId): Section[] {

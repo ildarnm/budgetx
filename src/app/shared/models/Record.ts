@@ -1,6 +1,6 @@
-import { Model } from "@shared/models/Model";
-import { SectionId } from "@shared/models/Section";
-import { v4 as uuidv4 } from "uuid";
+import { Model } from '@shared/models/Model';
+import { SectionId } from '@shared/models/Section';
+import { v4 as uuidv4 } from 'uuid';
 
 export type RecordId = string;
 

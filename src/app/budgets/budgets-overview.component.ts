@@ -1,11 +1,11 @@
-import { Component, OnInit } from "@angular/core";
-import { BudgetStore } from "./services/budget.store";
-import { RouterLink, RouterOutlet } from "@angular/router";
-import { BudgetService } from "./services/budget.service";
+import { Component, OnInit } from '@angular/core';
+import { BudgetStore } from './services/budget.store';
+import { RouterLink, RouterOutlet } from '@angular/router';
+import { BudgetService } from './services/budget.service';
 
 @Component({
   standalone: true,
-  selector: "x-budgets-overview",
+  selector: 'x-budgets-overview',
   template: `
     <div class="grid grid-cols-5 h-full">
       <aside class="bg-blue-900 min-h-screen p-10 text-blue-50">
@@ -32,7 +32,10 @@ import { BudgetService } from "./services/budget.service";
 export class BudgetsOverviewComponent implements OnInit {
   budgets = this.budgetStore.budgets;
 
-  constructor(private budgetStore: BudgetStore, private budgetService: BudgetService) {}
+  constructor(
+    private budgetStore: BudgetStore,
+    private budgetService: BudgetService,
+  ) {}
 
   ngOnInit(): void {
     this.budgetService.fetchBudgets();

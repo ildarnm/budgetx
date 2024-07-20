@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { Record } from '@shared/models/Record';
 import { PartialModel } from '@shared/types';
-import { SectionId } from "@shared/models/Section";
+import { SectionId } from '@shared/models/Section';
 
 @Injectable({ providedIn: 'root' })
 export class RecordStore {
@@ -11,7 +11,7 @@ export class RecordStore {
 
   add(record: Record) {
     console.log('Add record', record);
-    this.records.update(s => [...s, record]);
+    this.records.update((s) => [...s, record]);
   }
 
   getRecords(sectionId: SectionId): Record[] {

@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
-import { SectionId } from "@shared/models/Section";
-import { createRecord, Record, RecordId } from "@shared/models/Record";
-import { RecordRepository } from "@shared/repositories/RecordRepository";
-import { RecordStore } from "./record.store";
-import { PartialModel } from "@shared/types";
+import { SectionId } from '@shared/models/Section';
+import { createRecord, Record } from '@shared/models/Record';
+import { RecordRepository } from '@shared/repositories/RecordRepository';
+import { RecordStore } from './record.store';
+import { PartialModel } from '@shared/types';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class RecordService {
-
-  constructor(private recordStore: RecordStore, private recordRepository: RecordRepository) {
-  }
+  constructor(
+    private recordStore: RecordStore,
+    private recordRepository: RecordRepository,
+  ) {}
 
   public async create(sectionId: SectionId) {
     const record = createRecord(sectionId);

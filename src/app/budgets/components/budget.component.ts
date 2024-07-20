@@ -1,16 +1,16 @@
-import { NgIf } from "@angular/common";
-import { ChangeDetectionStrategy, Component, computed } from "@angular/core";
-import { BudgetStore } from "../services/budget.store";
-import { TitleComponent } from "./title.component";
-import { SectionListComponent } from "./section-list.component";
-import { ActivatedRoute } from "@angular/router";
-import { toSignal } from "@angular/core/rxjs-interop";
-import { map } from "rxjs";
-import { BudgetId } from "@shared/models/Budget";
-import { BudgetService } from "../services/budget.service";
+import { NgIf } from '@angular/common';
+import { ChangeDetectionStrategy, Component, computed } from '@angular/core';
+import { BudgetStore } from '../services/budget.store';
+import { TitleComponent } from './title.component';
+import { SectionListComponent } from './section-list.component';
+import { ActivatedRoute } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs';
+import { BudgetId } from '@shared/models/Budget';
+import { BudgetService } from '../services/budget.service';
 
 @Component({
-  selector: "x-budget",
+  selector: 'x-budget',
   standalone: true,
   template: `
     @if (budget(); as budget) {

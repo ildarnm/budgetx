@@ -5,19 +5,22 @@ import { SectionStore } from './section.store';
 import { Section, createSection, SectionType } from '@shared/models/Section';
 import { PartialModel } from '@shared/types';
 
-@Injectable({providedIn: "root"})
+@Injectable({ providedIn: 'root' })
 export class SectionService {
   constructor(
     private sectionRepository: SectionRepository,
     private sectionStore: SectionStore,
-  ) {
-  }
+  ) {}
 
-  createSection(budgetId: BudgetId, title = 'New section',  type: SectionType = 'expense'): Section {
+  createSection(
+    budgetId: BudgetId,
+    title = 'New section',
+    type: SectionType = 'expense',
+  ): Section {
     return { ...createSection(budgetId), type, title } satisfies Section;
   }
 
-  async addSection(section:Section): Promise<void> {
+  async addSection(section: Section): Promise<void> {
     this.sectionStore.add(section);
     await this.sectionRepository.create(section);
   }

@@ -5,7 +5,7 @@ export const routes: Routes = [
     path: '',
     loadComponent: () =>
       import('./budgets/budgets-overview.component').then(
-        (m) => m.BudgetsOverviewComponent
+        (m) => m.BudgetsOverviewComponent,
       ),
     title: 'Budgets overview',
     children: [
@@ -13,7 +13,7 @@ export const routes: Routes = [
         path: 'budgets/:budgetId',
         loadComponent: () =>
           import('./budgets/components/budget.component').then(
-            (m) => m.BudgetComponent
+            (m) => m.BudgetComponent,
           ),
       },
     ],

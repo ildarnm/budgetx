@@ -1,10 +1,15 @@
 import { NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, input, } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+} from '@angular/core';
 import { TitleComponent } from './title.component';
-import { Section } from "@shared/models/Section";
-import { RecordComponent } from "./record.component";
-import { RecordStore } from "../services/record.store";
-import { RecordService } from "../services/record.service";
+import { Section } from '@shared/models/Section';
+import { RecordComponent } from './record.component';
+import { RecordStore } from '../services/record.store';
+import { RecordService } from '../services/record.service';
 
 @Component({
   selector: 'x-record-list',
@@ -21,9 +26,14 @@ import { RecordService } from "../services/record.service";
 export class BudgetComponent {
   public section = input.required<Section>();
 
-  public records = computed(() => this.recordStore.getRecords(this.section().id));
+  public records = computed(() =>
+    this.recordStore.getRecords(this.section().id),
+  );
 
-  constructor(private recordStore: RecordStore, private recordService: RecordService) {}
+  constructor(
+    private recordStore: RecordStore,
+    private recordService: RecordService,
+  ) {}
 
   onAddRecord() {
     this.recordService.create(this.section().id);
