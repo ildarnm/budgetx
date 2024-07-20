@@ -9,7 +9,12 @@ export class SectionStore {
 
   constructor() {}
 
-  async add(sections: Section[]) {
+  async add(section: Section) {
+    console.log('Add section', section);
+    this.sections.update(s => [...s, section]);
+  }
+
+  async addSections(sections: Section[]) {
     console.log('Add sections', sections);
     this.sections.update(s => [...s, ...sections]);
   }

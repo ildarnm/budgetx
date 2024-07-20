@@ -14,6 +14,7 @@ import { SectionService } from '../services/section.service';
     @for (section of sections(); track section.id) {
       <x-section [section]="section" />
     }
+    <button class="btn mt-2" (click)="onAddSection()">Add section</button>
   `,
 })
 export class SectionListComponent implements OnInit {
@@ -24,5 +25,9 @@ export class SectionListComponent implements OnInit {
 
   ngOnInit() {
     this.sectionService.fetchSections(this.budgetId());
+  }
+
+  onAddSection(): void {
+    this.sectionService.createSection(this.budgetId());
   }
 }

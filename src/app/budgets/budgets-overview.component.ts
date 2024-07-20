@@ -39,6 +39,6 @@ export class BudgetsOverviewComponent implements OnInit {
   }
 
   addBudget(): void {
-    this.budgetService.addBudget();
+    this.budgetService.createBudget();
   }
 }
