@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 import { BudgetsOverviewComponent } from "./budgets/budgets-overview.component";
+import { inject } from "@angular/core";
+import { BudgetStore } from "./budgets/services/budget.store";
 
 export const routes: Routes = [
   {
@@ -8,8 +10,10 @@ export const routes: Routes = [
     title: 'Budgets overview',
   },
   {
-    path: '',
-    redirectTo: 'budgets/',
-    pathMatch: 'full',
+    path: '**',
+    redirectTo: () => {
+      const budgets = inject(BudgetStore).budgets();
+      return `budgets/${budgets[0].id}`;
+    },
   },
 ];

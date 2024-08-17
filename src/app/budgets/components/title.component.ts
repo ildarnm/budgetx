@@ -1,8 +1,8 @@
 import { Component, input, output, signal } from '@angular/core';
-import { TuiSvgModule } from "@taiga-ui/core";
+import { TuiIcon } from "@taiga-ui/core";
 @Component({
   standalone: true,
-  imports: [TuiSvgModule],
+  imports: [TuiIcon],
   selector: 'x-title',
   template: `
     <div class="mb-10px flex">
@@ -15,7 +15,7 @@ import { TuiSvgModule } from "@taiga-ui/core";
           (click)="setEditable(!editable())"
           class="tui-space_right-3 tui-space_bottom-3"
         >
-          <tui-svg src="tuiIconEdit3"></tui-svg>
+          <tui-icon icon="tuiIconEdit3"></tui-icon>
 
         </button>
       } @else {

@@ -1,7 +1,7 @@
 import { provideAnimations } from "@angular/platform-browser/animations";
-import { TuiRootModule } from "@taiga-ui/core";
-import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom, inject } from '@angular/core';
+import { APP_INITIALIZER, ApplicationConfig, inject } from '@angular/core';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
+import { NG_EVENT_PLUGINS } from '@taiga-ui/event-plugins';
 
 import { routes } from './app.routes';
 import { provideHttpClient } from "@angular/common/http";
@@ -20,7 +20,7 @@ export const appConfig: ApplicationConfig = {
     },
     provideAnimations(),
     provideRouter(routes, withComponentInputBinding()),
-    importProvidersFrom(TuiRootModule),
+    NG_EVENT_PLUGINS,
     provideHttpClient(),
   ],
 };

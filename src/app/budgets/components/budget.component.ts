@@ -1,5 +1,5 @@
 import { NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, effect, input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, input, OnDestroy, OnInit } from '@angular/core';
 import { BudgetStore } from '../services/budget.store';
 import { TitleComponent } from './title.component';
 import { SectionListComponent } from './section-list.component';
@@ -18,21 +18,19 @@ import { BudgetService } from '../services/budget.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgIf, TitleComponent, SectionListComponent],
 })
-export class BudgetComponent {
+export class BudgetComponent implements OnDestroy {
   budgetId = input.required<BudgetId>();
   public activeBudget = this.budgetStore.activeBudget;
+  private fetchActiveBudgetEffect = effect(() => this.budgetService.fetchBudget(this.budgetId()).subscribe());
 
   constructor(
     private budgetStore: BudgetStore,
     private budgetService: BudgetService,
   ) {
-    effect(() => {
-      const budgetId = this.budgetStore.activeBudgetId();
-      if (!budgetId) {
-        return;
-      }
-      this.budgetService.fetchBudget(budgetId).subscribe();
-    });
+  }
+
+  public ngOnDestroy() {
+    this.fetchActiveBudgetEffect.destroy();
   }
 
   public updateTitle(title: string) {
