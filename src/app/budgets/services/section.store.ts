@@ -1,20 +1,21 @@
 import { Injectable, signal } from '@angular/core';
-import { BudgetId } from '@shared/models/Budget';
-import { Section } from '@shared/models/Section';
+import { BudgetId } from '@shared/models/budget';
+import { Section } from '@shared/models/section';
 import { PartialModel } from '@shared/types';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class SectionStore {
   private sections = signal<Section[]>([]);
 
-  constructor() {}
+  constructor() {
+  }
 
-  async add(section: Section) {
+  add(section: Section) {
     console.log('Add section', section);
     this.sections.update((s) => [...s, section]);
   }
 
-  async addSections(sections: Section[]) {
+  addSections(sections: Section[]) {
     console.log('Add sections', sections);
     this.sections.update((s) => [...s, ...sections]);
   }
@@ -25,7 +26,7 @@ export class SectionStore {
 
   update(section: PartialModel<Section>) {
     this.sections.update((sections) =>
-      sections.map((s) => (s.id === section.id ? { ...s, ...section } : s)),
+      sections.map((s) => (s.id === section.id ? {...s, ...section} : s)),
     );
   }
 }

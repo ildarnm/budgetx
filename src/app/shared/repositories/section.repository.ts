@@ -1,12 +1,19 @@
-import { Section } from '../models/Section';
-import Repository from './Repository';
+import { Section } from '../models/section';
+import Repository from './repository';
 import { delay } from '../delay';
 import { Injectable } from '@angular/core';
 import { PartialModel } from '@shared/types';
 import { sections_db } from '@shared/repositories/mocks';
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
 
 @Injectable({ providedIn: 'root' })
 export class SectionRepository extends Repository<Section> {
+  constructor(private httpClient: HttpClient) {
+    super();
+  }
+
+
   public async getSections(budgetId: string): Promise<Section[]> {
     return delay((resolve) => {
       console.log('Get budget all sections', budgetId);
@@ -34,16 +41,7 @@ export class SectionRepository extends Repository<Section> {
     });
   }
 
-  public async update(section: PartialModel<Section>): Promise<Section> {
-    return delay((resolve, reject) => {
-      console.log('Update budget section', section);
-      const existSection = sections_db.find((s) => s.id === section.id);
-      if (existSection) {
-        Object.assign(existSection, section);
-        return resolve(existSection);
-      }
-
-      return reject('Section not found');
-    });
+  public update(section: PartialModel<Section>): Observable<Section> {
+    return this.httpClient.patch<Section>(`/api/sections/${section.id}`, section);
   }
 }

@@ -6,7 +6,7 @@ import {
   input,
 } from '@angular/core';
 import { TitleComponent } from './title.component';
-import { Section } from '@shared/models/Section';
+import { Section } from '@shared/models/section';
 import { RecordComponent } from './record.component';
 import { RecordStore } from '../services/record.store';
 import { RecordService } from '../services/record.service';
@@ -15,10 +15,9 @@ import { RecordService } from '../services/record.service';
   selector: 'x-record-list',
   standalone: true,
   template: `
-    @for (record of records(); track record.id) {
-      <x-record [record]="record" />
+    @for (record of records(); track record.id;) {
+      <x-record [record]="record" (keyup.enter)="onAddRecord($index)" />
     }
-    <button class="btn mt-2" (click)="onAddRecord()">Add record</button>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgIf, TitleComponent, RecordComponent],
@@ -35,7 +34,7 @@ export class BudgetComponent {
     private recordService: RecordService,
   ) {}
 
-  onAddRecord() {
-    this.recordService.create(this.section().id);
+  onAddRecord(index: number) {
+    this.recordService.create(this.section().id, );
   }
 }

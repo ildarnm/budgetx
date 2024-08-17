@@ -1,5 +1,5 @@
 import { Component, computed, input, OnInit } from '@angular/core';
-import { BudgetId } from '@shared/models/Budget';
+import { BudgetId } from '@shared/models/budget';
 import { SectionStore } from '../services/section.store';
 import { SectionComponent } from './section.component';
 import { SectionService } from '../services/section.service';

@@ -1,36 +1,55 @@
-import { BudgetRepository } from '@shared/repositories/BudgetRepository';
+import { BudgetRepository } from '@shared/repositories/budget.repository';
 import { BudgetStore } from './budget.store';
 import { Router } from '@angular/router';
-import { createBudget } from '@shared/models/Budget';
-import { SectionService } from './section.service';
+import { Budget, BudgetId, createBudget } from '@shared/models/budget';
 import { Injectable } from '@angular/core';
-import { createSection, Section } from '@shared/models/Section';
-import { createRecord } from '@shared/models/Record';
+import { createSection, Section } from '@shared/models/section';
+import { createRecord } from '@shared/models/record-item';
 import { RecordStore } from './record.store';
 import { SectionStore } from './section.store';
+import { EMPTY, Observable, switchMap, tap } from "rxjs";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class BudgetService {
   constructor(
     private budgetRepository: BudgetRepository,
     private budgetStore: BudgetStore,
-    private sectionService: SectionService,
     private sectionStore: SectionStore,
     private recordStore: RecordStore,
     private router: Router,
-  ) {}
-
-  async fetchBudgets(): Promise<void> {
-    const budgets = await this.budgetRepository.getBudgetsList();
-
-    this.budgetStore.set(budgets);
-
-    const [firstBudget] = budgets;
-    await this.router.navigate(['/budgets', firstBudget.id]);
+  ) {
   }
 
-  async createBudget() {
-    const budget = createBudget();
+  public init(): Observable<Budget[]> {
+    return this.budgetRepository.getAll().pipe(
+      tap(budgets => {
+        this.budgetStore.set(budgets);
+      })
+    );
+  }
+
+  public fetchBudget(budgetId: BudgetId): Observable<void> {
+    const existsBudget = this.budgetStore.getBudgetById(budgetId);
+    if (existsBudget?.isFull) {
+      return EMPTY;
+    }
+
+    return this.budgetRepository.find(budgetId).pipe(
+      tap(({budget, sections, records}) => {
+        if (existsBudget) {
+          this.budgetStore.update({...budget, isFull: true});
+        } else {
+          this.budgetStore.add({...budget, isFull: true});
+        }
+        this.sectionStore.addSections(sections);
+        this.recordStore.addRecords(records);
+      }),
+      switchMap(() => EMPTY)
+    );
+  }
+
+  public createBudget(): Observable<void> {
+    const budget = {...createBudget(), isFull: true} satisfies Budget;
 
     this.budgetStore.add(budget);
 
@@ -50,20 +69,23 @@ export class BudgetService {
       title: 'Expense',
     } satisfies Section;
     this.sectionStore.add(expense);
+
     const expenseFirstRecord = createRecord(expense.id);
     this.recordStore.add(expenseFirstRecord);
 
-    this.budgetRepository.create({
+
+    return this.budgetRepository.create({
       budget,
       sections: [income, expense],
       records: [incomeFirstRecord, expenseFirstRecord],
-    });
+    }).pipe(
+      tap(() => this.router.navigate(['/budgets', budget.id]))
+    );
 
-    await this.router.navigate(['/budgets', budget.id]);
   }
 
-  async updateTitle(budgetId: string, title: string) {
-    await this.budgetRepository.update({ id: budgetId, title });
-    this.budgetStore.update({ id: budgetId, title });
+  public updateTitle(budgetId: string, title: string): Observable<void> {
+    this.budgetStore.update({id: budgetId, title});
+    return this.budgetRepository.update(budgetId, {title});
   }
 }

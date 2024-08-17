@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, effect, inject, input, OnInit } from '@angular/core';
 import { BudgetStore } from './services/budget.store';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, RouterLink, RouterOutlet } from '@angular/router';
 import { BudgetService } from './services/budget.service';
+import { injectRouteParam } from "@shared/inject-route-param";
+import { BudgetId } from "@shared/models/budget";
+import { BudgetComponent } from "./components/budget.component";
 
 @Component({
   standalone: true,
@@ -22,26 +25,29 @@ import { BudgetService } from './services/budget.service';
         </section>
       </aside>
       <main class="bg-blue-50 p-14 col-span-4">
-        <router-outlet></router-outlet>
+        <x-budget [budgetId]="budgetId()"></x-budget>
       </main>
     </div>
   `,
   styles: [],
-  imports: [RouterLink, RouterOutlet],
+  imports: [RouterLink, RouterOutlet, BudgetComponent],
 })
-export class BudgetsOverviewComponent implements OnInit {
+export class BudgetsOverviewComponent {
+  public budgetId = input.required<BudgetId>();
+
   budgets = this.budgetStore.budgets;
 
   constructor(
-    private budgetStore: BudgetStore,
     private budgetService: BudgetService,
-  ) {}
-
-  ngOnInit(): void {
-    this.budgetService.fetchBudgets();
+    private budgetStore: BudgetStore,
+  ) {
+    effect(() => {
+      const budgetId = this.budgetId() ;
+      this.budgetStore.activeBudgetId.set(budgetId ? budgetId : this.budgets()[0].id);
+    }, { allowSignalWrites: true });
   }
 
   addBudget(): void {
-    this.budgetService.createBudget();
+    this.budgetService.createBudget().subscribe();
   }
 }

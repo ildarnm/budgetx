@@ -1,6 +1,6 @@
-import { BudgetId } from './Budget';
-import { Model } from './Model';
-import { Record } from './Record';
+import { BudgetId } from './budget';
+import { Model } from './model';
+import { RecordItem } from './record-item';
 import { v4 as uuidv4 } from 'uuid';
 
 export type SectionId = string;
@@ -10,7 +10,6 @@ export interface Section extends Model<SectionId> {
   budgetId: BudgetId;
   title: string;
   type: SectionType;
-  items: Record[];
 }
 
 export const createSection = (budgetId: BudgetId): Section => ({
@@ -18,5 +17,4 @@ export const createSection = (budgetId: BudgetId): Section => ({
   budgetId,
   title: 'New section',
   type: 'expense',
-  items: [],
 });

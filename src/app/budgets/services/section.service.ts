@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { BudgetId } from '@shared/models/Budget';
-import { SectionRepository } from '@shared/repositories/SectionRepository';
+import { BudgetId } from '@shared/models/budget';
+import { SectionRepository } from '@shared/repositories/section.repository';
 import { SectionStore } from './section.store';
-import { Section, createSection, SectionType } from '@shared/models/Section';
+import { Section, createSection, SectionType } from '@shared/models/section';
 import { PartialModel } from '@shared/types';
+import { Observable } from "rxjs";
 
 @Injectable({ providedIn: 'root' })
 export class SectionService {
@@ -30,8 +31,8 @@ export class SectionService {
     this.sectionStore.addSections(sections);
   }
 
-  async updateSection(section: PartialModel<Section>) {
+  public updateSection(section: PartialModel<Section>): Observable<Section> {
     this.sectionStore.update(section);
-    await this.sectionRepository.update(section);
+    return this.sectionRepository.update(section);
   }
 }

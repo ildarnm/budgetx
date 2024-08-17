@@ -1,6 +1,6 @@
-import { Budget } from '@shared/models/Budget';
-import { Record } from '@shared/models/Record';
-import { Section } from '@shared/models/Section';
+import { Budget } from '@shared/models/budget';
+import { RecordItem } from '@shared/models/record-item';
+import { Section } from '@shared/models/section';
 
 export const budgets_db: Budget[] = [
   {
@@ -13,7 +13,7 @@ export const budgets_db: Budget[] = [
   },
 ];
 
-export const records_db: Record[] = [];
+export const records_db: RecordItem[] = [];
 
 export const sections_db: Section[] = [
   {
@@ -21,39 +21,11 @@ export const sections_db: Section[] = [
     budgetId: '1',
     type: 'income',
     title: 'Income',
-    items: [
-      {
-        id: '1',
-        sectionId: '1',
-        name: 'Item 1',
-        amount: '100',
-      },
-      {
-        id: '2',
-        sectionId: '1',
-        name: 'Item 2',
-        amount: '200',
-      },
-    ],
   },
   {
     id: '2',
     budgetId: '1',
     type: 'expense',
     title: 'Expense',
-    items: [
-      {
-        id: '3',
-        sectionId: '2',
-        name: 'Item 1',
-        amount: '100',
-      },
-      {
-        id: '4',
-        sectionId: '2',
-        name: 'Item 2',
-        amount: '200',
-      },
-    ],
   },
 ];

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { Section, SectionType } from '@shared/models/Section';
+import { Section, SectionType } from '@shared/models/section';
 import { TitleComponent } from './title.component';
 import { BudgetComponent } from './record-list.component';
 import { SectionService } from '../services/section.service';
@@ -34,10 +34,10 @@ export class SectionComponent {
   constructor(private sectionService: SectionService) {}
 
   public updateTitle(title: string) {
-    this.sectionService.updateSection({ id: this.section().id, title });
+    this.sectionService.updateSection({ id: this.section().id, title }).subscribe();
   }
 
   public updateType(type: SectionType) {
-    this.sectionService.updateSection({ id: this.section().id, type });
+    this.sectionService.updateSection({ id: this.section().id, type }).subscribe();
   }
 }

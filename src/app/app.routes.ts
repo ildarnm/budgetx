@@ -1,21 +1,15 @@
 import { Routes } from '@angular/router';
+import { BudgetsOverviewComponent } from "./budgets/budgets-overview.component";
 
 export const routes: Routes = [
   {
-    path: '',
-    loadComponent: () =>
-      import('./budgets/budgets-overview.component').then(
-        (m) => m.BudgetsOverviewComponent,
-      ),
+    path: 'budgets/:budgetId',
+    component: BudgetsOverviewComponent,
     title: 'Budgets overview',
-    children: [
-      {
-        path: 'budgets/:budgetId',
-        loadComponent: () =>
-          import('./budgets/components/budget.component').then(
-            (m) => m.BudgetComponent,
-          ),
-      },
-    ],
+  },
+  {
+    path: '',
+    redirectTo: 'budgets/',
+    pathMatch: 'full',
   },
 ];
