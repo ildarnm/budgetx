@@ -1,182 +1,64 @@
 import { ChangeDetectionStrategy, Component, effect, input, OnDestroy } from '@angular/core';
 import { BudgetStore } from './services/budget.store';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { BudgetService } from './services/budget.service';
 import { BudgetId } from "@shared/models/budget";
 import { BudgetComponent } from "./components/budget.component";
-import {
-  TuiAvatar,
-  TuiBadge,
-  TuiBadgeNotification,
-  TuiChevron,
-  TuiDataListDropdownManager,
-  TuiFade,
-  TuiTabs
-} from "@taiga-ui/kit";
-import { TuiAppearance, TuiButton, TuiDataList, TuiDropdown, TuiIcon, TuiSurface, TuiTitle } from "@taiga-ui/core";
-import { TuiRepeatTimes } from "@taiga-ui/cdk";
-import {TuiCardLarge, TuiHeader, TuiNavigation} from '@taiga-ui/layout';
+import { TuiButton, TuiDataList, TuiDropdown, TuiIcon, TuiOption } from "@taiga-ui/core";
+import { TuiLet } from "@taiga-ui/cdk";
 
 @Component({
   standalone: true,
   selector: 'x-budgets-overview',
-  imports: [RouterLink, RouterOutlet, BudgetComponent, TuiAvatar, TuiTabs, TuiBadge, TuiIcon,
-    TuiNavigation,
-    TuiButton,
-    TuiIcon,
-    TuiChevron,
-    TuiDropdown,
-    TuiFade,
-    TuiDataList,
-    TuiBadgeNotification,
-    TuiAvatar,
-    TuiAppearance,
-    TuiBadge,
-    TuiTabs,
-    TuiRepeatTimes,
-    TuiCardLarge,
-    TuiHeader,
-    TuiSurface,
-    TuiTitle,
-    TuiDataListDropdownManager,],
+  imports: [RouterLink, RouterOutlet, BudgetComponent, TuiIcon, TuiDataList, TuiOption, TuiButton, TuiLet, TuiDropdown],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <!--    <div class="grid grid-cols-5 h-full">-->
-    <!--      <aside class="bg-blue-900 min-h-screen p-10 text-blue-50">-->
-    <!--        <section>-->
-    <!--          <h1>Budget List</h1>-->
-    <!--          <ul>-->
-    <!--            @for (budget of budgets(); track budget.id) {-->
-    <!--              <li>-->
-    <!--                <a routerLink="/budgets/{{ budget.id }}">{{ budget.title }}</a>-->
-    <!--              </li>-->
-    <!--            }-->
-    <!--          </ul>-->
-    <!--          <button class="btn btn-blue" (click)="addBudget()">Add budget</button>-->
-    <!--        </section>-->
-    <!--      </aside>-->
-    <!--      <main class="bg-blue-50 p-14 col-span-4">-->
-    <!--        <x-budget [budgetId]="budgetId()"></x-budget>-->
-    <!--      </main>-->
-    <!--    </div>-->
-    <header tuiNavigationHeader>
-      <button
-        appearance="secondary"
-        iconStart="@tui.layout-grid"
-        tuiIconButton
-      >
-        Menu
-      </button>
-      <span tuiNavigationLogo>
-        <tui-icon icon="@tui.home"/>
-        <span tuiFade>A very very long product name</span>
-    </span>
-      <tui-avatar src="AI"/>
-    </header>
-    <div [style.display]="'flex'">
-      <aside
-        [style.height.rem]="27"
-      >
-        <header>
-          <button
-            iconStart="@tui.home"
-            tuiAsideItem
-          >
-            <span tuiFade>A very very long product name</span>
-          </button>
-        </header>
-        <button
-          iconStart="@tui.search"
-          tuiAsideItem
-        >
-          Search
-        </button>
-        <a
-          iconStart="@tui.users"
-          tuiAsideItem
-          [routerLink]=""
-        >
-          Groups
-        </a>
-        <tui-aside-group>
-          <button
-            iconStart="@tui.settings"
-            tuiAsideItem
-            tuiChevron
-          >
-            Settings
-            <ng-template>
-              <button tuiAsideItem>Account</button>
-              <button tuiAsideItem>Notifications</button>
-              <button tuiAsideItem>Privacy</button>
-            </ng-template>
-          </button>
-        </tui-aside-group>
-        <button
-          iconStart="@tui.heart"
-          tuiAsideItem
-        >
-          <span tuiFade>By default ellipsis is used but you can use fade too</span>
-        </button>
-        <hr/>
-        <button
-          iconStart="@tui.plus"
-          tuiAsideItem
-        >
-          Add
-        </button>
-        <footer>
-          <button
-            iconStart="@tui.star"
-            tuiAsideItem
-          >
-            Favorites
-          </button>
-        </footer>
-      </aside>
-      <main tuiNavigationMain>
-        <nav
-          tuiNavigationNav
-          [style.position]="'sticky'"
-        >
-          <a routerLink=".">
-            <tui-icon icon="@tui.chevron-left"/>
-            Back
-          </a>
-          /
-          <span tuiNavigationLogo>
-                <span tuiFade>Groups</span>
-                <tui-badge iconStart="@tui.lock">Status</tui-badge>
-            </span>
-          <hr/>
-          <tui-tabs tuiFade>
-            <button tuiTab>Default view</button>
-            <button tuiTab>Details</button>
-            <button tuiTab>Followers</button>
-          </tui-tabs>
-          <button
-            appearance="secondary"
-            tuiButton
-          >
-            Secondary
-          </button>
-          <button tuiButton>Primary</button>
-        </nav>
-        <div
-          *tuiRepeatTimes="let index of 10"
-          tuiCardLarge
-          tuiHeader
-          tuiSurface="elevated"
-        >
-          <h2 tuiTitle>
-            Some random content
-            <span tuiSubtitle>A subtitle</span>
-          </h2>
+        <div class="flex h-screen">
+          <aside class="bg-white p-6 w-72 border-r relative">
+            <section>
+              <h3 class="text-xs font-semibold text-gray-500 uppercase mb-2 mt-10">Budgets</h3>
+              <ul>
+                @for (budget of budgets(); track budget.id) {
+                  <li class="budget-item flex items-center text-gray-800 py-1" >
+                    <div [class.bg-blue-500]="budgetId() === budget.id" class=" w-5 h-5 mr-3 bg-gray-100"></div>
+                    <a class="flex-1" [class.link-active]="budgetId() === budget.id" routerLink="/budgets/{{ budget.id }}">{{ budget.title }}</a>
+<!--                    <button-->
+<!--                      class="budget-menu-button"-->
+<!--                      type="button"-->
+<!--                      tuiDropdownOpen-->
+<!--                      tuiDropdownAlign="right"-->
+<!--                      [tuiDropdown]="content"-->
+<!--                    >-->
+<!--                      <tui-icon icon="@tui.ellipsis-vertical" class="w-4 h-4 text-gray-600"></tui-icon>-->
+<!--                    </button>-->
+<!--                    <ng-template #content>-->
+<!--                      <tui-data-list role="menu">-->
+<!--                        <button tuiOption>Delete</button>-->
+<!--                      </tui-data-list>-->
+<!--                    </ng-template>-->
+                  </li>
+                }
+              </ul>
+              <button (click)="addBudget()" class="bg-blue-500 w-16 h-16 rounded-full text-white text-3xl flex items-center justify-center shadow-lg absolute bottom-8 left-1/2 transform -translate-x-1/2">
+                <tui-icon
+                  icon="@tui.plus"
+                />
+              </button>
+            </section>
+          </aside>
+          <main class="flex-1 p-8">
+            <x-budget [budgetId]="budgetId()"></x-budget>
+          </main>
         </div>
-      </main>
-    </div>
   `,
-  styles: [],
+  styles: [`
+    .budget-menu-button {
+      @apply hidden;
+    }
+    .budget-item:hover .budget-menu-button {
+      @apply block;
+    }
+  `],
 })
 export class BudgetsOverviewComponent implements OnDestroy {
   public budgetId = input.required<BudgetId>();

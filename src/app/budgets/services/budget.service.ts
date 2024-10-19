@@ -65,7 +65,6 @@ export class BudgetService {
 
     const expense = {
       ...createSection(budget.id),
-      type: 'expense',
       title: 'Expense',
     } satisfies Section;
     this.sectionStore.add(expense);

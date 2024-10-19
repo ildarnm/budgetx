@@ -4,28 +4,45 @@ import { TitleComponent } from './title.component';
 import { BudgetComponent } from './record-list.component';
 import { SectionService } from '../services/section.service';
 import { FormsModule } from '@angular/forms';
+import { TuiButton, TuiDataList, TuiDropdown, TuiDropdownOpen, TuiIcon, TuiOption } from "@taiga-ui/core";
+import { TuiLet } from "@taiga-ui/cdk";
 @Component({
   standalone: true,
   selector: 'x-section',
   template: `
-    <div
-      style="border: 1px solid #fff; padding: 10px"
-      [style.borderColor]="section().type === 'expense' ? 'red' : 'green'"
-    >
+    <div class="bg-gray-50 rounded-lg p-4 mb-6"
+    [class.bg-gray-50]="section().type === 'expense'"
+    [class.bg-blue-50]="section().type === 'income'">
       <div class="flex">
         <x-title
+          size="h3"
           [title]="section().title"
           (titleChanged)="updateTitle($event)"
         />
-        <select [ngModel]="section().type" (ngModelChange)="updateType($event)">
+        <select class="bg-transparent" [ngModel]="section().type" (ngModelChange)="updateType($event)">
           <option value="expense">Expense</option>
           <option value="income">Income</option>
         </select>
+        <div class="flex-1"></div>
+        <button
+          class="budget-menu-button"
+          type="button"
+          tuiDropdownOpen
+          tuiDropdownAlign="right"
+          [tuiDropdown]="content"
+        >
+          <tui-icon icon="@tui.ellipsis-vertical" class="w-4 h-4 text-gray-600"></tui-icon>
+        </button>
+        <ng-template #content>
+          <tui-data-list role="menu">
+            <button (click)="deleteSection()" tuiOption>Delete</button>
+          </tui-data-list>
+        </ng-template>
       </div>
-      <x-record-list [section]="section()" />
+      <x-record-list class="block mt-4" [section]="section()" />
     </div>
   `,
-  imports: [TitleComponent, BudgetComponent, FormsModule],
+  imports: [TitleComponent, BudgetComponent, FormsModule, TuiIcon, TuiDataList, TuiOption, TuiButton, TuiLet, TuiDropdown],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SectionComponent {
@@ -39,5 +56,9 @@ export class SectionComponent {
 
   public updateType(type: SectionType) {
     this.sectionService.updateSection({ id: this.section().id, type }).subscribe();
+  }
+
+  public deleteSection() {
+    this.sectionService.deleteSection(this.section().id).subscribe();
   }
 }

@@ -15,7 +15,7 @@ import { SectionService } from '../services/section.service';
     <button class="btn mt-2" (click)="onAddSection()">Add section</button>
   `,
 })
-export class SectionListComponent implements OnInit {
+export class SectionListComponent {
   budgetId = input.required<BudgetId>();
   public sections = computed(() =>
     this.sectionStore.getSections(this.budgetId()),
@@ -26,11 +26,7 @@ export class SectionListComponent implements OnInit {
     private sectionService: SectionService,
   ) {}
 
-  ngOnInit() {
-    this.sectionService.fetchSections(this.budgetId());
-  }
-
   onAddSection(): void {
-    this.sectionService.createSection(this.budgetId());
+    this.sectionService.createSection(this.budgetId()).subscribe();
   }
 }

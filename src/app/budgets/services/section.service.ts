@@ -2,37 +2,44 @@ import { Injectable } from '@angular/core';
 import { BudgetId } from '@shared/models/budget';
 import { SectionRepository } from '@shared/repositories/section.repository';
 import { SectionStore } from './section.store';
-import { Section, createSection, SectionType } from '@shared/models/section';
+import { Section, createSection, SectionType, SectionId } from '@shared/models/section';
 import { PartialModel } from '@shared/types';
 import { Observable } from "rxjs";
+import { createRecord } from "@shared/models/record-item";
+import { RecordStore } from "./record.store";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class SectionService {
   constructor(
     private sectionRepository: SectionRepository,
     private sectionStore: SectionStore,
-  ) {}
+    private recordStore: RecordStore,
+  ) {
+  }
 
-  createSection(
+  public createSection(
     budgetId: BudgetId,
-    title = 'New section',
-    type: SectionType = 'expense',
-  ): Section {
-    return { ...createSection(budgetId), type, title } satisfies Section;
-  }
+  ): Observable<void> {
 
-  async addSection(section: Section): Promise<void> {
+    const section = {
+      ...createSection(budgetId),
+      title: 'Expense',
+    } satisfies Section;
     this.sectionStore.add(section);
-    await this.sectionRepository.create(section);
-  }
 
-  async fetchSections(budgetId: BudgetId) {
-    const sections = await this.sectionRepository.getSections(budgetId);
-    this.sectionStore.addSections(sections);
+    const expenseFirstRecord = createRecord(section.id);
+    this.recordStore.add(expenseFirstRecord);
+
+    return this.sectionRepository.create({ section, records: [expenseFirstRecord] });
   }
 
   public updateSection(section: PartialModel<Section>): Observable<Section> {
     this.sectionStore.update(section);
     return this.sectionRepository.update(section);
+  }
+
+  public deleteSection(sectionId: SectionId): Observable<void> {
+    this.sectionStore.delete(sectionId);
+    return this.sectionRepository.delete(sectionId);
   }
 }

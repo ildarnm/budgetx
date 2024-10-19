@@ -1,4 +1,4 @@
-import { Section } from '../models/section';
+import { Section, SectionId } from '../models/section';
 import Repository from './repository';
 import { delay } from '../delay';
 import { Injectable } from '@angular/core';
@@ -6,6 +6,7 @@ import { PartialModel } from '@shared/types';
 import { sections_db } from '@shared/repositories/mocks';
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
+import { CreateNormalizedSectionDto } from "@shared/repositories/dto/create-normalized-section.dto";
 
 @Injectable({ providedIn: 'root' })
 export class SectionRepository extends Repository<Section> {
@@ -13,20 +14,8 @@ export class SectionRepository extends Repository<Section> {
     super();
   }
 
-
-  public async getSections(budgetId: string): Promise<Section[]> {
-    return delay((resolve) => {
-      console.log('Get budget all sections', budgetId);
-      resolve(sections_db.filter((s) => s.budgetId === budgetId));
-    });
-  }
-
-  public async create(section: Section): Promise<Section> {
-    return delay((resolve) => {
-      console.log('Create budget section', section);
-      sections_db.push(section);
-      resolve(section);
-    });
+  public create(createNormalizedSectionDto: CreateNormalizedSectionDto): Observable<void> {
+    return this.httpClient.post<void>(`/api/sections`, createNormalizedSectionDto);
   }
 
   public async find(sectionId: string): Promise<Section> {
@@ -43,5 +32,9 @@ export class SectionRepository extends Repository<Section> {
 
   public update(section: PartialModel<Section>): Observable<Section> {
     return this.httpClient.patch<Section>(`/api/sections/${section.id}`, section);
+  }
+
+  public delete(sectionId: SectionId): Observable<void> {
+    return this.httpClient.delete<void>(`/api/sections/${sectionId}`);
   }
 }

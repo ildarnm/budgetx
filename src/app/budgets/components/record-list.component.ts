@@ -35,6 +35,6 @@ export class BudgetComponent {
   ) {}
 
   onAddRecord(index: number) {
-    this.recordService.create(this.section().id, );
+    this.recordService.create(this.section().id).subscribe();
   }
 }

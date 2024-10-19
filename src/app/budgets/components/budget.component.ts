@@ -11,7 +11,9 @@ import { BudgetService } from '../services/budget.service';
   standalone: true,
   template: `
     @if (activeBudget(); as budget) {
-      <x-title [title]="budget.title" (titleChanged)="updateTitle($event)"/>
+      <div class="flex justify-between items-center mb-10 ml-4">
+        <x-title [title]="budget.title" (titleChanged)="updateTitle($event)"/>
+      </div>
       <x-section-list [budgetId]="budget.id"/>
     }
   `,

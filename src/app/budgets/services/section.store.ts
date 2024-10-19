@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { BudgetId } from '@shared/models/budget';
-import { Section } from '@shared/models/section';
+import { Section, SectionId } from '@shared/models/section';
 import { PartialModel } from '@shared/types';
 
 @Injectable({providedIn: 'root'})
@@ -29,4 +29,11 @@ export class SectionStore {
       sections.map((s) => (s.id === section.id ? {...s, ...section} : s)),
     );
   }
+
+  delete(sectionId: SectionId) {
+    this.sections.update((sections) =>
+      sections.filter(s => s.id !== sectionId),
+    );
+  }
+
 }

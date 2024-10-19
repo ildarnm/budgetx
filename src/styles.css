@@ -9,3 +9,15 @@
 .btn:hover {
   @apply bg-black;
 }
+
+.btn-rounded {
+  @apply py-1 px-2 rounded-full bg-gray-100;
+  @apply text-sm;
+}
+.btn-rounded:hover {
+  @apply py-1 px-2 rounded-full bg-black text-white;
+}
+
+.link-active {
+  @apply text-blue-500;
+}

@@ -8,12 +8,14 @@ import { RecordStore } from "../services/record.store";
   standalone: true,
   template: ` <input
     #name
+    class="b-gray-400 p-2 bg-transparent basis-2/3"
     [value]="record().name"
     (change)="updateName($event)"
     placeholder="Name"
     type="text"
   />
   <input
+    class="bg-transparent p-2 basis-1/3"
     [value]="record().value"
     (change)="updateValue($event)"
     placeholder="Value"
@@ -22,7 +24,7 @@ import { RecordStore } from "../services/record.store";
   styles: [
     `
       :host {
-        display: block;
+        display: flex;
       }
     `,
   ],
@@ -46,11 +48,11 @@ export class RecordComponent implements OnInit {
 
   updateName(event: Event): void {
     const target = event.target as HTMLInputElement;
-    this.recordService.update({id: this.record().id, name: target.value});
+    this.recordService.update({id: this.record().id, name: target.value}).subscribe();
   }
 
   updateValue(event: Event): void {
     const target = event.target as HTMLInputElement;
-    this.recordService.update({id: this.record().id, value: target.value});
+    this.recordService.update({id: this.record().id, value: target.value}).subscribe();
   }
 }

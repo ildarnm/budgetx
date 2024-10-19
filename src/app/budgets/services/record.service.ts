@@ -4,6 +4,7 @@ import { createRecord, RecordItem } from '@shared/models/record-item';
 import { RecordRepository } from '@shared/repositories/record.repository';
 import { RecordStore } from './record.store';
 import { PartialModel } from '@shared/types';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class RecordService {
@@ -12,15 +13,15 @@ export class RecordService {
     private recordRepository: RecordRepository,
   ) {}
 
-  public async create(sectionId: SectionId) {
+  public create(sectionId: SectionId): Observable<RecordItem> {
     const record = createRecord(sectionId);
     this.recordStore.add(record);
     this.recordStore.setActiveRecordId(record.id);
-    await this.recordRepository.create(record);
+    return this.recordRepository.create(record);
   }
 
-  public async update(record: PartialModel<RecordItem>): Promise<void> {
+  public update(record: PartialModel<RecordItem>): Observable<void> {
     this.recordStore.update(record);
-    await this.recordRepository.update(record);
+    return this.recordRepository.update(record);
   }
 }
