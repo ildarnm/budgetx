@@ -1,16 +1,17 @@
 import { ChangeDetectionStrategy, Component, effect, input, OnDestroy } from '@angular/core';
 import { BudgetStore } from './services/budget.store';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { BudgetService } from './services/budget.service';
 import { BudgetId } from "@shared/models/budget";
 import { BudgetComponent } from "./components/budget.component";
 import { TuiButton, TuiDataList, TuiDropdown, TuiIcon, TuiOption } from "@taiga-ui/core";
 import { TuiLet } from "@taiga-ui/cdk";
+import { FooterComponent } from "./components/footer.component";
 
 @Component({
   standalone: true,
   selector: 'x-budgets-overview',
-  imports: [RouterLink, RouterOutlet, BudgetComponent, TuiIcon, TuiDataList, TuiOption, TuiButton, TuiLet, TuiDropdown],
+  imports: [RouterLink, RouterOutlet, BudgetComponent, TuiIcon, TuiDataList, TuiOption, TuiButton, TuiLet, TuiDropdown, FooterComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
         <div class="flex h-screen">
@@ -46,8 +47,9 @@ import { TuiLet } from "@taiga-ui/cdk";
               </button>
             </section>
           </aside>
-          <main class="flex-1 p-8">
-            <x-budget [budgetId]="budgetId()"></x-budget>
+          <main class="flex-1 p-8 overflow-auto position-relative">
+            <x-budget [budgetId]="budgetId()"/>
+            <x-footer/>
           </main>
         </div>
   `,

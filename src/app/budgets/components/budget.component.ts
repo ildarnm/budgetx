@@ -5,6 +5,7 @@ import { TitleComponent } from './title.component';
 import { SectionListComponent } from './section-list.component';
 import { BudgetId } from '@shared/models/budget';
 import { BudgetService } from '../services/budget.service';
+import { FooterComponent } from "./footer.component";
 
 @Component({
   selector: 'x-budget',

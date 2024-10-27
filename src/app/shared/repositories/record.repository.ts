@@ -3,7 +3,7 @@ import Repository from './repository';
 import { delay } from '../delay';
 import { Injectable, inject } from '@angular/core';
 import { PartialModel } from '@shared/types';
-import { records_db } from '@shared/repositories/mocks';
+import { recordsDB } from '@shared/repositories/mocks';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from "rxjs";
 
@@ -18,7 +18,7 @@ export class RecordRepository extends Repository<RecordItem> {
   public async find(id: string): Promise<RecordItem> {
     return delay((resolve, reject) => {
       console.log('Find budget record', id);
-      const r = records_db.find((s) => s.id === id);
+      const r = recordsDB.find((s) => s.id === id);
       if (r) {
         return resolve(r);
       }

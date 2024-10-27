@@ -13,7 +13,7 @@ export const budgets_db: Budget[] = [
   },
 ];
 
-export const records_db: RecordItem[] = [];
+export const recordsDB: RecordItem[] = [];
 
 export const sections_db: Section[] = [
   {

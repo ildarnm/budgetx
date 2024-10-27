@@ -13,6 +13,9 @@ export const routes: Routes = [
     path: '**',
     redirectTo: () => {
       const budgets = inject(BudgetStore).budgets();
+      if (budgets.length === 0) {
+        return 'budgets/new';
+      }
       return `budgets/${budgets[0].id}`;
     },
   },

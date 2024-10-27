@@ -18,6 +18,7 @@ import { RecordService } from '../services/record.service';
     @for (record of records(); track record.id;) {
       <x-record [record]="record" (keyup.enter)="onAddRecord($index)" />
     }
+
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgIf, TitleComponent, RecordComponent],

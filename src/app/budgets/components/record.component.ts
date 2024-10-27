@@ -8,14 +8,14 @@ import { RecordStore } from "../services/record.store";
   standalone: true,
   template: ` <input
     #name
-    class="b-gray-400 p-2 bg-transparent basis-2/3"
+    class="b-gray-400 p-2 bg-transparent basis-2/3 border-2 outline-blue-500"
     [value]="record().name"
     (change)="updateName($event)"
     placeholder="Name"
     type="text"
   />
   <input
-    class="bg-transparent p-2 basis-1/3"
+    class="bg-transparent p-2 basis-1/3 border-2 border-l-0 outline-blue-500"
     [value]="record().value"
     (change)="updateValue($event)"
     placeholder="Value"
