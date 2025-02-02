@@ -1,6 +1,5 @@
-import { CreateBudgetDto } from "@shared/repositories/dto/create-budget.dto";
-import { CreateSectionDto } from "@shared/repositories/dto/create-section.dto";
-import { CreateRecordDto } from "@shared/repositories/dto/create-record.dto";
+import { CreateRecordDto } from './create-record.dto';
+import { CreateSectionDto } from './create-section.dto';
 
 export interface CreateNormalizedSectionDto {
   section: CreateSectionDto;
