@@ -1,24 +1,20 @@
-import { Component, effect, ElementRef, input, OnInit, viewChild } from '@angular/core';
+import { Component, computed, effect, ElementRef, inject, input, OnDestroy, OnInit, viewChild } from '@angular/core';
 import { RecordItem } from '@shared/models/record-item';
 import { RecordService } from '../services/record.service';
 import { RecordStore } from "../services/record.store";
+import { SectionService } from '../services/section.service';
+import { Decimal } from "decimal.js";
 
 @Component({
   selector: 'x-record',
   standalone: true,
   template: ` <input
     #name
-    class="b-gray-400 p-2 bg-transparent basis-2/3 border-2 outline-blue-500"
-    [value]="record().name"
+    class=" p-2 bg-transparent w-full outline-blue-500"
+    [value]="recordName()"
     (change)="updateName($event)"
+    (blur)="onBlur()"
     placeholder="Name"
-    type="text"
-  />
-  <input
-    class="bg-transparent p-2 basis-1/3 border-2 border-l-0 outline-blue-500"
-    [value]="record().value"
-    (change)="updateValue($event)"
-    placeholder="Value"
     type="text"
   />`,
   styles: [
@@ -29,30 +25,43 @@ import { RecordStore } from "../services/record.store";
     `,
   ],
 })
-export class RecordComponent implements OnInit {
+export class RecordComponent implements OnDestroy {
+  private recordService = inject(RecordService);
+  private recordStore = inject(RecordStore);
+
   record = input.required<RecordItem>();
   nameInputRef = viewChild<ElementRef<HTMLInputElement>>('name');
+  setFocusToActiveRecord = effect(() => {
+    if (this.recordStore.activeRecordId() === this.record().id) {
+      this.nameInputRef()?.nativeElement.focus();
+    }
+  });
 
-  constructor(private recordService: RecordService, private recordStore: RecordStore) {
-    effect(() => {
-      if (this.recordStore.activeRecordId() === this.record().id) {
-        this.nameInputRef()?.nativeElement.focus();
-      }
-    });
+  recordName = computed(() => {
+    const value = new Decimal(this.record().value);
+    return value.toNumber() > 0 ? this.record().name + ' ' + this.record().value : this.record().name
+  })
+
+  ngOnDestroy() {
+    this.setFocusToActiveRecord.destroy();
   }
 
-  ngOnInit() {
-
+  onBlur() {
+    if (!this.record().name && !this.record().value) {
+      this.recordService.delete(this.record().id).subscribe();
+    }
   }
 
 
   updateName(event: Event): void {
-    const target = event.target as HTMLInputElement;
-    this.recordService.update({id: this.record().id, name: target.value}).subscribe();
-  }
-
-  updateValue(event: Event): void {
-    const target = event.target as HTMLInputElement;
-    this.recordService.update({id: this.record().id, value: target.value}).subscribe();
+    const valueParts = (event.target as HTMLInputElement).value.trim().split(' ');
+    let value = valueParts[valueParts.length - 1];
+    if (Decimal.isDecimal(value)) {
+      valueParts.pop();
+    } else {
+      value = '0';
+    }
+    const name = valueParts.join(' ').trim();
+    this.recordService.update({id: this.record().id, name, value }).subscribe();
   }
 }

@@ -30,4 +30,8 @@ export class RecordRepository extends Repository<RecordItem> {
   public update(record: PartialModel<RecordItem>): Observable<void> {
     return this.http.patch<void>(`/api/records/${record.id}`, record);
   }
+
+  public delete(id: string): Observable<void> {
+    return this.http.delete<void>(`/api/records/${id}`);
+  }
 }

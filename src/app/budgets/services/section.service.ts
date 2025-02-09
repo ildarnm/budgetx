@@ -29,7 +29,7 @@ export class SectionService {
 
     const expenseFirstRecord = createRecord(section.id);
     this.recordStore.add(expenseFirstRecord);
-
+    this.recordStore.setActiveRecordId(expenseFirstRecord.id);
     return this.sectionRepository.create({ section, records: [expenseFirstRecord] });
   }
 

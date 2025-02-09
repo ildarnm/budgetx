@@ -3,6 +3,7 @@ import { BudgetStore } from './budget.store';
 import { SectionStore } from "./section.store";
 import { RecordStore } from "./record.store";
 import { RecordItem } from '@shared/models/record-item';
+import {Decimal} from 'decimal.js';
 
 @Injectable({providedIn: 'root'})
 export class BalanceService {
@@ -10,7 +11,7 @@ export class BalanceService {
   private sectionStore = inject(SectionStore);
   private recordStore = inject(RecordStore);
 
-  public balance = computed<number>(() => {
+  public balance = computed(() => {
     const activeBudgetId = this.budgetStore.activeBudgetId();
     if (!activeBudgetId) {
       return 0;
@@ -22,22 +23,20 @@ export class BalanceService {
       .reduce((records, currentSection) => {
       return [...records, ...this.recordStore.getRecords(currentSection.id)];
     },  [] as RecordItem[])
-      .reduce((records, currentRecord) => {
-        return records + currentRecord.value;
-      }, 0);
+      .reduce((result, currentRecord) => {
+        return result.plus(currentRecord.value);
+      }, new Decimal('0'));
 
     const expenseSectionsRecordsSum = activeBudgetSections
       .filter((s) => s.type === 'expense')
       .reduce((records, currentSection) => {
         return [...records, ...this.recordStore.getRecords(currentSection.id)];
       },  [] as RecordItem[])
-      .reduce((records, currentRecord) => {
-        return records + currentRecord.value;
-      }, 0);
+      .reduce((result, currentRecord) => {
+        return result.plus(currentRecord.value);
+      }, new Decimal('0'));
 
-    return incomeSectionsRecords.reduce((acc, currentRecord) => {
-      return acc + currentRecord.value;
-    },
+    return incomeSectionsRecordsSum.minus(expenseSectionsRecordsSum).toString();
   });
 
   constructor() {

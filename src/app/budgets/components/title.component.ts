@@ -8,9 +8,8 @@ import { TuiIcon } from "@taiga-ui/core";
     <div class="mb-10px flex items-center">
       @if (!editable()) {
           <h1
-            [class.text-5xl]="size() === 'h1'"
-            [class.text-xl]="size() === 'h3'"
-            class="font-bold">{{ title() }}</h1>
+            [class.text-3xl]="size() === 'h1'"
+            [class.text-xl]="size() === 'h3'">{{ title() }}</h1>
         <button
           class="flex items-center py-1 px-2 rounded-full w-7 h-7 bg-gray-100 ml-2"
           (click)="setEditable(!editable())">

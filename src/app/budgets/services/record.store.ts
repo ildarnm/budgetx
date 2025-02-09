@@ -24,6 +24,10 @@ export class RecordStore {
     this.records.update((s) => [...s, ...records]);
   }
 
+  getRecordById(recordId: RecordId): RecordItem | undefined {
+    return this.records().find((s) => s.id === recordId);
+  }
+
   getRecords(sectionId: SectionId): RecordItem[] {
     return this.records().filter((s) => s.sectionId === sectionId);
   }
@@ -31,6 +35,12 @@ export class RecordStore {
   update(record: PartialModel<RecordItem>) {
     this.records.update((records) =>
       records.map((s) => (s.id === record.id ? { ...s, ...record } : s)),
+    );
+  }
+
+  delete(recordId: RecordId) {
+    this.records.update((records) =>
+      records.filter((s) => s.id !== recordId),
     );
   }
 

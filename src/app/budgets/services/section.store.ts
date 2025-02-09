@@ -20,6 +20,10 @@ export class SectionStore {
     this.sections.update((s) => [...s, ...sections]);
   }
 
+  getSectionById(sectionId: SectionId): Section | undefined {
+    return this.sections().find((s) => s.id === sectionId);
+  }
+
   getSections(budgetId: BudgetId): Section[] {
     return this.sections().filter((s) => s.budgetId === budgetId);
   }

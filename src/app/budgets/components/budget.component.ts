@@ -12,7 +12,7 @@ import { FooterComponent } from "./footer.component";
   standalone: true,
   template: `
     @if (activeBudget(); as budget) {
-      <div class="flex justify-between items-center mb-10 ml-4">
+      <div class="flex justify-between items-center mb-10">
         <x-title [title]="budget.title" (titleChanged)="updateTitle($event)"/>
       </div>
       <x-section-list [budgetId]="budget.id"/>

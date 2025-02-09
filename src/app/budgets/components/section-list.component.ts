@@ -10,7 +10,7 @@ import { SectionService } from '../services/section.service';
   imports: [SectionComponent],
   template: `
     @for (section of sections(); track section.id) {
-      <x-section [section]="section" />
+      <x-section class="block mb-6" [section]="section" />
     }
     <button class="btn mt-2" (click)="onAddSection()">Add section</button>
   `,
