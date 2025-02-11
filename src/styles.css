@@ -10,6 +10,14 @@
   @apply bg-black;
 }
 
+.btn-outlined {
+  @apply py-1 px-2 rounded border border-black text-black;
+  @apply text-sm;
+}
+.btn-outlined:hover {
+  @apply bg-gray-100 text-black;
+}
+
 .btn-rounded {
   @apply py-1 px-2 rounded-full bg-gray-100;
   @apply text-sm;

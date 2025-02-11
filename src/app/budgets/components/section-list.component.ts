@@ -8,11 +8,15 @@ import { SectionService } from '../services/section.service';
   selector: 'x-section-list',
   standalone: true,
   imports: [SectionComponent],
+  styles: [`
+    :host {
+      display: block;
+    }`],
   template: `
     @for (section of sections(); track section.id) {
       <x-section class="block mb-6" [section]="section" />
     }
-    <button class="btn mt-2" (click)="onAddSection()">Add section</button>
+    <button class="btn-outlined mt-2" (click)="onAddSection()">Add section</button>
   `,
 })
 export class SectionListComponent {

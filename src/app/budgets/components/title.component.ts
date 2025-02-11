@@ -18,9 +18,9 @@ import { TuiIcon } from "@taiga-ui/core";
       } @else {
         <input
           #input
-          [class.text-5xl]="size() === 'h1'"
+          [class.text-3xl]="size() === 'h1'"
           [class.text-xl]="size() === 'h3'"
-          class="font-bold bg-transparent"
+          class="bg-transparent"
           style="width: 100%; outline: none; border: none"
           (blur)="onBlur()"
           type="text"
